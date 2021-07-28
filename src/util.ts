@@ -12,20 +12,20 @@ export const limbo = () => {};
  * @param {Function} fn Function to call.
  * @return {*} Returns of fn execution. 
  */
-export const invoke = fn => fn();
+export const invoke = <T extends CallableFunction>(fn: T) => fn();
 
 /**
  * Receives and value and returns it.
  * @param {*} i Item. 
  * @return {*} Item.
  */
-export const identity = i => i;
+export const identity = <T>(i: T) => i;
 
 /**
  * @param {*} obj Any object that have an id.
  * @return Id value or obj otherwise.
  */
-export const id = obj => ((obj || {}).id || obj);
+export const id = <T extends {id: string}>(obj: T) => ((obj || {}).id || obj);
 
 /**
  * Curries an function to compare another items (j) to an item (i) by id property.
@@ -54,7 +54,7 @@ export const byId = i => j => id(i) === id(j);
  * @param {Function} fn Function to invert.
  * @return {Function} inverse of function.
  */
-export const not = fn => (...args) => !fn(...args);
+export const not = <T extends CallableFunction>(fn: T) => (...args) => !fn(...args);
 
 /**
  * Converts a value to a integer.
@@ -121,7 +121,7 @@ export const objectDiff = (from, to) => {
  * 
  * @param {String} argName Name of argument. 
  */
-export const requiredArg = (argName = 'argument') => {
+export const requiredArg = (argName: string | 'argument'): Error => {
   throw new Error(`${argName} is required`);
 };
 

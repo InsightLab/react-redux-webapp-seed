@@ -1,12 +1,12 @@
-import React from 'react';
 import './App.css';
+import { ProviderRedux } from './redux-providers/ProviderRedux';
 import { Root } from './screens/Root';
 
 function App() {
   return (
-    <div className="App">
-      <Root/>
-    </div>
+    <ProviderRedux>
+      <Root />
+    </ProviderRedux>
   );
 }
 
