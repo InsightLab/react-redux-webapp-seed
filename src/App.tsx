@@ -1,12 +1,12 @@
-import React from 'react';
-import './App.css';
+import { ThemeProvider } from 'styled-components';
 import { Root } from './screens/Root';
+import { theme } from './styles/theme';
 
 function App() {
   return (
-    <div className="App">
+    <ThemeProvider theme={theme}>
       <Root/>
-    </div>
+    </ThemeProvider>
   );
 }
 

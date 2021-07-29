@@ -1,3 +1,5 @@
 export const Root = () => {
-  return <div>Teste</div>
+  return (
+    <div>Teste</div>
+  );
 }
