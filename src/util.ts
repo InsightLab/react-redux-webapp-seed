@@ -1,4 +1,4 @@
-import { keys, filter, pick, equals, compose } from 'ramda';
+import { keys, filter, pick, equals, compose, isEmpty, isNil } from 'ramda';
 import env from './env';
 /**
  * Empty function.
@@ -41,7 +41,7 @@ export const id = <T extends {id: string}>(obj: T) => ((obj || {}).id || obj);
  * @param {*} i Item comparable.
  * @return {Function} function to compare another items (j) to an item (i).
  */
-export const byId = i => j => id(i) === id(j);
+export const byId = <T extends {id: string}>(i: T) => <J extends {id: string}>(j:J) => id(i) === id(j);
 
 /**
  * Curries an function to invert your value.
@@ -54,16 +54,16 @@ export const byId = i => j => id(i) === id(j);
  * @param {Function} fn Function to invert.
  * @return {Function} inverse of function.
  */
-export const not = <T extends CallableFunction>(fn: T) => (...args) => !fn(...args);
+export const not = <T extends CallableFunction>(fn: T) => (...args: any) => !fn(...args);
 
 /**
  * Converts a value to a integer.
  * Created to avoid pass '10' in every convertion.
  * @param {*} value A value.
  */
-export const toInt = value => parseInt(value, 10);
+export const toInt = (value: string) => parseInt(value, 10);
 
-export const isArray = value => value instanceof Array;
+export const isArray = (value: any) => value instanceof Array;
 
 /**
  * Removes an item from an list based on your id property.
@@ -71,7 +71,7 @@ export const isArray = value => value instanceof Array;
  * @param {Object} item Item to remove.
  * @return {Array} A new list without item (if exists).
  */
-export const removeById = (list, item, idFn = byId) => 
+export const removeById = <F extends {id: string}>(list: Array<F>, item: F, idFn = byId) => 
   (list || []).filter(not(idFn(item)));
 
 /**
@@ -80,8 +80,8 @@ export const removeById = (list, item, idFn = byId) =>
  * @param {Object} item Item to replace.
  * @return {Array} A new list with items replaced if id match occurs.
  */
-export const replaceById = (list, item) => 
-  (list || []).map(jtem => (id(jtem) === id(item) && item) || jtem);
+export const replaceById = <F extends {id: string}>(list: Array<F>, item: F) => 
+  (list || []).map((jtem: F) => (id(jtem) === id(item) && item) || jtem);
 
 /** 
  * Works like replaceById, but instead of replace totally, 
@@ -90,8 +90,8 @@ export const replaceById = (list, item) =>
  * @param {Object} item Item to spread.
  * @return {Array} A new list with items updated if id match occurs.
 */
-export const spreadById = (list, item) =>
-  (list || []).map(jtem => (id(jtem) === id(item) && {...jtem, ...item}) || jtem);
+export const spreadById = <F extends {id: string}>(list: Array<F>, item: F) =>
+  (list || []).map((jtem: F) => (id(jtem) === id(item) && {...jtem, ...item}) || jtem);
 
 /**
  * Computes the difference from one object to another.
@@ -103,9 +103,10 @@ export const spreadById = (list, item) =>
  * @param {Object} to Use to check.
  * @return {Object} Object that contains the differences { prop: value of from }.
  */
-export const objectDiff = (from, to) => {
-  const eq = k => equals(from[k], to[k]);
-  const pickFrom = keys => pick(keys, from);
+type GenericObject = { [key: string]: any };
+export const objectDiff = (from: GenericObject, to: GenericObject) => {
+  const eq = (k: number) => equals(from[k], to[k]);
+  const pickFrom = (keys: readonly number[]) => pick(keys, from);
   return compose(
     pickFrom,
     filter(not(eq)),
@@ -133,37 +134,18 @@ export const relativePath = path => `${env.basename || ''}${
   path && ( (path.charAt(0) === '/' && path) || `/${path}` )
 }`;
 
-/*eslint no-extend-native: 0*/
-export function loadPipeFunction() {
-  const pipeOperator = "pipeFn";
+/**
+ * @param {string} rawBase64 Base 64 string with extension.
+ * @return An object with extension and a clean base64 of image.
+ */
+export const parseBase64 = (rawBase64: string) => {
+  const arr: string[] = rawBase64.split(',')
+  const match = arr[0].match(/:(.*?);/)
+  const extension = match && match[1]
+  const base64 = arr[1]
+  return { base64, extension }
+}
 
-  Object.defineProperty(Number.prototype, pipeOperator, {
-    value: function(outerFunction, ...params) {
-      return outerFunction(this, ...params);
-    }
-  });
-
-  Object.defineProperty(String.prototype, pipeOperator, {
-    value: function(outerFunction, ...params) {
-      return outerFunction(this, ...params);
-    }
-  });
-
-  Object.defineProperty(Function.prototype, pipeOperator, {
-    value: function(outerFunction, ...params) {
-      return outerFunction(this, ...params);
-    }
-  });
-
-  Object.defineProperty(Object.prototype, pipeOperator, {
-    value: function(outerFunction, ...params) {
-      return outerFunction(this, ...params);
-    }
-  });
-
-  Object.defineProperty(Array.prototype, pipeOperator, {
-    value: function(outerFunction, ...params) {
-      return outerFunction(this, ...params);
-    }
-  });
+export function isNilOrEmpty(value: any) { 
+  return isNil(value) || isEmpty(value)
 }
