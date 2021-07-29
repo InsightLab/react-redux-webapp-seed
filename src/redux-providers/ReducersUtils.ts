@@ -1,8 +1,3 @@
-const initialState: ReduxState<any> = {
-  loading: false,
-  data: null,
-  error: null
-}
 
 export const ReduxReducersUtils = {
   /**

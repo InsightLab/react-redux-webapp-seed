@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { FunctionComponent } from 'react';
 import { Redirect, Route, BrowserRouter as Router, RouterProps, Switch } from 'react-router-dom';
 import { ScreenDummyView } from './Dummy/View';
@@ -11,4 +12,10 @@ export const Root: FunctionComponent = () => {
       </Switch>
     </Router>
   )
+=======
+export const Root = () => {
+  return (
+    <div>Teste</div>
+  );
+>>>>>>> develop
 }
