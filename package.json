@@ -49,10 +49,7 @@
   },
   "devDependencies": {
     "@types/ramda": "^0.27.44",
-<<<<<<< HEAD
-    "@types/react-router-dom": "^5.1.8"
-=======
+    "@types/react-router-dom": "^5.1.8",
     "@types/styled-components": "^5.1.11"
->>>>>>> develop
   }
 }
