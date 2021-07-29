@@ -1,5 +1,5 @@
-import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { store } from "./Redux";
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { store } from './Redux';
 
 export type RootState = ReturnType<typeof store.getState>;
 

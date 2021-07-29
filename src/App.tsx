@@ -7,7 +7,7 @@ function App() {
   return (
     <ProviderRedux>
       <ThemeProvider theme={theme}>
-        <Root/>
+        <Root />
       </ThemeProvider>
     </ProviderRedux>
   );

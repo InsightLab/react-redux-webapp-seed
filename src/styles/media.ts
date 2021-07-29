@@ -18,5 +18,5 @@ export const screen = {
   small: customMediaQuery(screenSmallMin),
   medium: customMediaQuery(screenMediumMin),
   large: customMediaQuery(screenLargeMin),
-  extraLarge: customMediaQuery(screenExtraLargeMin)
-}
+  extraLarge: customMediaQuery(screenExtraLargeMin),
+};

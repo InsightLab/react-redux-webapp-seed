@@ -1,4 +1,3 @@
-
 export const ReduxReducersUtils = {
   /**
    * Applies sequentially all reducers.
@@ -7,7 +6,10 @@ export const ReduxReducersUtils = {
    * @return {Object} new state.
    */
   compose<State, Payload>(...reducers: ReduxComposableReducer[]) {
-    return (state: ReduxState<State> | undefined, action: ReduxAction<Payload>): ReduxState<State> =>
+    return (
+      state: ReduxState<State> | undefined,
+      action: ReduxAction<Payload>
+    ): ReduxState<State> =>
       reducers.reduce(
         (acc, reducer) => this.consume(acc, action, reducer),
         state
@@ -20,11 +22,12 @@ export const ReduxReducersUtils = {
    * @return {Fuction} An function that receives an reducer to be consume when an action of one of type is triggered.
    */
   combine<T>(...actionTypes: string[]) {
-    return (reducer: ReduxReducer) => (state: ReduxState<T>, action: ReduxAction<T>) => {
-      const match =
-        actionTypes.find((type) => type === action.type) !== undefined;
-      return (match && this.consume(state, action, reducer)) || state;
-    };
+    return (reducer: ReduxReducer) =>
+      (state: ReduxState<T>, action: ReduxAction<T>) => {
+        const match =
+          actionTypes.find((type) => type === action.type) !== undefined;
+        return (match && this.consume(state, action, reducer)) || state;
+      };
   },
 
   /**
@@ -41,8 +44,8 @@ export const ReduxReducersUtils = {
    * @return {Object} new state.
    */
   consume<State, Payload>(
-    state: ReduxState<State> | undefined, 
-    action: ReduxAction<Payload>, 
+    state: ReduxState<State> | undefined,
+    action: ReduxAction<Payload>,
     reducer: ReduxComposableReducer
   ): ReduxState<State> | undefined {
     if (typeof reducer === 'function') return reducer(state, action);
@@ -59,8 +62,8 @@ export const ReduxReducersUtils = {
    * @return {Object} new state.
    */
   consumeReducerObject<State, Payload>(
-    state: ReduxState<State> | undefined, 
-    action: ReduxAction<Payload>, 
+    state: ReduxState<State> | undefined,
+    action: ReduxAction<Payload>,
     reducers: ReduxReducersCollection
   ): ReduxState<State> | undefined {
     const r = reducers[action.type];
@@ -76,7 +79,10 @@ export const ReduxReducersUtils = {
   object<T>(options: ReduxOptions<T>, reducers: ReduxReducersCollection) {
     const { initialState } = options;
 
-    return <State, Payload>(state: ReduxState<State> | undefined = initialState as ReduxState<State>, action: ReduxAction<Payload>): ReduxState<State> =>
+    return <State, Payload>(
+      state: ReduxState<State> | undefined = initialState as ReduxState<State>,
+      action: ReduxAction<Payload>
+    ): ReduxState<State> =>
       this.consumeReducerObject(state, action, reducers) as ReduxState<State>;
   },
 
@@ -87,23 +93,29 @@ export const ReduxReducersUtils = {
    */
   keyed<T>(initialState: ReduxKeyedState<T>) {
     // takes a reducer to apply it in specific sub-state
-    return (reducer: ReduxReducer) => 
+    return (reducer: ReduxReducer) =>
       // return a another reducer
       <State, Payload>(
-        state: ReduxKeyedState<State> | undefined = initialState as unknown as ReduxKeyedState<State>, 
+        state:
+          | ReduxKeyedState<State>
+          | undefined = initialState as unknown as ReduxKeyedState<State>,
         action: ReduxAction<Payload>
       ): ReduxKeyedState<State> => {
         const key = action.key;
-        
+
         if (key) {
           return {
             // key exists, update sub-state
             ...state,
-            [key]: this.consume(/* sub-state */ state[key], action, reducer) as ReduxState<State>,
-          }
+            [key]: this.consume(
+              /* sub-state */ state[key],
+              action,
+              reducer
+            ) as ReduxState<State>,
+          };
         }
 
-        return state
+        return state;
       };
   },
 };

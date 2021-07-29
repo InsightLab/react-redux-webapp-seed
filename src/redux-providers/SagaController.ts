@@ -3,7 +3,6 @@ import { Dispatch } from 'redux';
 import { takeLatest, takeEvery, call, put } from 'redux-saga/effects';
 import { ReduxReducersUtils } from './ReducersUtils';
 
-
 export const defaultInitialState = {
   loading: false,
   error: null,
@@ -32,7 +31,11 @@ class SagaController<State, Params, Result> {
   saga: string;
   options: ReduxOptions<State>;
 
-  constructor({ asyncTask, saga, ...options }: SagaControllerConstructor<State, Params, Result>) {
+  constructor({
+    asyncTask,
+    saga,
+    ...options
+  }: SagaControllerConstructor<State, Params, Result>) {
     // asyncTask: function that returns an promise.
     this.asyncTask = asyncTask;
     // saga: saga identifier.
@@ -58,8 +61,10 @@ class SagaController<State, Params, Result> {
 
   takeFunction(str: string) {
     switch (str) {
-      case "every": return takeEvery;
-      default: return takeLatest;
+      case 'every':
+        return takeEvery;
+      default:
+        return takeLatest;
     }
   }
 
@@ -72,7 +77,7 @@ class SagaController<State, Params, Result> {
     const takeFn = this.takeFunction(take);
 
     // returns an saga watcher
-    return function*() {
+    return function* () {
       yield takeFn(RUN, worker);
     };
   }
@@ -82,7 +87,7 @@ class SagaController<State, Params, Result> {
     const RESOLVE = this.RESOLVE;
     const REJECT = this.REJECT;
 
-    return function*(action: ReduxRunAction<Params>): SagaGenerator<State> {
+    return function* (action: ReduxRunAction<Params>): SagaGenerator<State> {
       // returns an saga worker
       const { type, payload, resolve, reject } = action;
 
@@ -177,7 +182,7 @@ class SagaController<State, Params, Result> {
       return {
         ...realState,
         loading: false,
-        error: (action.payload as unknown) as SagaError,
+        error: action.payload as unknown as SagaError,
       };
     }
 

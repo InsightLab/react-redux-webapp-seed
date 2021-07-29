@@ -4,48 +4,47 @@ import { httpErrorHandler } from './errorHandler';
 import { requiredArg, limbo, identity } from '../../util';
 
 type AxiosApi = {
-  baseURL : string,
-  getDataOnSuccess : () => void,
-  getMessageOnError : () => void,
-  headers: object
-}
+  baseURL: string;
+  getDataOnSuccess: () => void;
+  getMessageOnError: () => void;
+  headers: object;
+};
 
 export const createApi = ({
   baseURL = requiredArg('baseUrl'),
   getDataOnSuccess = identity,
   getMessageOnError = limbo,
-  headers = {}
+  headers = {},
 }) => {
-
   // api declaration
 
   const api = axios.create({
     baseURL,
     headers: {
-      'Accept': 'application/json',
-      ...headers
-    }
+      Accept: 'application/json',
+      ...headers,
+    },
   });
 
   // interceptors
 
   api.interceptors.request.use(
     // update config before request
-    config => config,
+    (config) => config,
     // handle request error
-    error => handleError(error)
+    (error) => handleError(error)
   );
 
   api.interceptors.response.use(
     // do something with response
-    response => mapResponseToUsefulData(response),
+    (response) => mapResponseToUsefulData(response),
     // handle response error
-    error => handleError(error)
+    (error) => handleError(error)
   );
 
   // utility
 
-  const handleError = error => {
+  const handleError = (error) => {
     // log
     console.error(error);
     // handle http erros
@@ -55,14 +54,14 @@ export const createApi = ({
     // publish error event
     publish('error', usefulError);
     // return as promise rejected
-    return Promise.reject( usefulError );
+    return Promise.reject(usefulError);
   };
 
-  const mapResponseToUsefulData = response => {
+  const mapResponseToUsefulData = (response) => {
     return getDataOnSuccess(response);
   };
 
-  const mapToUsefulError = error => {
+  const mapToUsefulError = (error) => {
     // try get from body
     const messageFromBody = getMessageOnError(error);
     if (messageFromBody) return { message: messageFromBody, error };

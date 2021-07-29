@@ -14,19 +14,19 @@ export function useActionCreator<Payload, Result>(
   actionCreator: ReduxActionCreator<Payload, Result>
 ): (...payload: Payload[]) => ReduxAction<Payload> | Promise<Result> {
   const dispatch = useDispatch<Dispatch<ReduxAction<Payload>>>();
-  return useCallback((...payload: Payload[]) => {
+  return useCallback(
+    (...payload: Payload[]) => {
       const action = actionCreator(...payload);
       switch (typeof action) {
         case 'function':
           return action(dispatch);
-        default: 
+        default:
           return dispatch(action);
       }
     },
-    [dispatch, actionCreator,]
+    [dispatch, actionCreator]
   );
 }
-
 
 export function useKeyedActionCreator<Payload>(
   key: string,
@@ -43,7 +43,8 @@ export function useKeyedActionCreator<Payload, Result>(
   actionCreator: ReduxActionCreator<Payload, Result>
 ): (...payload: Payload[]) => ReduxAction<Payload> | Promise<Result> {
   const dispatch = useDispatch<Dispatch<ReduxAction<Payload>>>();
-  return useCallback((payload: Payload) => {
+  return useCallback(
+    (payload: Payload) => {
       const action = actionCreator(payload);
       switch (typeof action) {
         case 'function':
@@ -56,7 +57,6 @@ export function useKeyedActionCreator<Payload, Result>(
   );
 }
 
-
 export function useDelayedKeyedActionCreator<Payload>(
   actionCreator: ReduxSimpleActionCreator<Payload>
 ): (key: string) => (...payload: Payload[]) => ReduxAction<Payload>;
@@ -65,17 +65,22 @@ export function useDelayedKeyedActionCreator<Payload, Result>(
   actionCreator: ReduxDispatchActionCreator<Payload, Result>
 ): (key: string) => (...payload: Payload[]) => Promise<Result>;
 
-export function useDelayedKeyedActionCreator<Payload, Result>( 
+export function useDelayedKeyedActionCreator<Payload, Result>(
   actionCreator: ReduxActionCreator<Payload, Result>
-): (key: string) => (...payload: Payload[]) => ReduxAction<Payload> | Promise<Result> {
+): (
+  key: string
+) => (...payload: Payload[]) => ReduxAction<Payload> | Promise<Result> {
   const dispatch = useDispatch<Dispatch<ReduxAction<Payload>>>();
-  return useCallback((key: string) => ( payload: Payload ) => {
-    const action = actionCreator( payload );
-    switch (typeof action) {
-      case "function": 
-        return action( (a) => dispatch({ ...a, key }) )
-      default: 
-        return dispatch({ ...action, key });
-    }
-  }, [ dispatch, actionCreator ]);
+  return useCallback(
+    (key: string) => (payload: Payload) => {
+      const action = actionCreator(payload);
+      switch (typeof action) {
+        case 'function':
+          return action((a) => dispatch({ ...a, key }));
+        default:
+          return dispatch({ ...action, key });
+      }
+    },
+    [dispatch, actionCreator]
+  );
 }

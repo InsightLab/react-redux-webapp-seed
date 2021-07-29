@@ -1,11 +1,14 @@
-
 import { spreadById, replaceById, removeById } from '../util';
 
-export function isSagaState<T>(state: ReduxState<T>): state is ReduxSagaState<T> {
+export function isSagaState<T>(
+  state: ReduxState<T>
+): state is ReduxSagaState<T> {
   return 'data' in state;
 }
 
-export function isArrayState<T, U>(state: ReduxState<T>): state is ReduxArrayState<T, U> {
+export function isArrayState<T, U>(
+  state: ReduxState<T>
+): state is ReduxArrayState<T, U> {
   return isSagaState(state) && state.data instanceof Array;
 }
 
@@ -58,9 +61,11 @@ export const ReduxSagaReducers = {
       return {
         ...state,
         data: removeById(
-          state.data, 
-          action.payload, 
-          ({ id }: { id: number }) => ({ id: itemId }: { id: number }) => id === itemId
+          state.data,
+          action.payload,
+          ({ id }: { id: number }) =>
+            ({ id: itemId }: { id: number }) =>
+              id === itemId
         ),
       };
 
@@ -119,15 +124,15 @@ export const ReduxSagaReducers = {
         data: action.payload,
       };
     }
-    
+
     return state;
   },
 
   clear<State, Payload>(
-    state: ReduxState<State> | undefined, 
+    state: ReduxState<State> | undefined,
     action: ReduxAction<Payload>
   ): ReduxState<State> {
-    if (isSagaState(state)) 
+    if (isSagaState(state))
       return {
         ...state,
         data: {},

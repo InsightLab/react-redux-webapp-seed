@@ -1,9 +1,10 @@
-
 export const ActionsUtils = {
-  forwardPayload: <Payload>(type: string) => (payload: Payload) => ({
-    type,
-    payload
-  }),
+  forwardPayload:
+    <Payload>(type: string) =>
+    (payload: Payload) => ({
+      type,
+      payload,
+    }),
 
-  simple: (type: string) => () => ({ type })
+  simple: (type: string) => () => ({ type }),
 };
