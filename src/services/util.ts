@@ -4,7 +4,7 @@ import { httpErrorHandler } from './api/errorHandler';
 type AxiosApi = {
   baseURL: string;
   getDataOnSuccess: <T>(t: AxiosResponse<T>) => T;
-  getMessageOnError: <T>(error: AxiosError<T>) => string;
+  getMessageOnError: (error: AxiosError<SagaError>) => string | undefined;
   headers: object;
 };
 
@@ -42,7 +42,7 @@ export const createApi = ({
 
   // utility
 
-  const handleError = <T>(error: AxiosError<T>) => {
+  const handleError = (error: AxiosError<SagaError>) => {
     // log
     console.error(error);
     // handle http erros
@@ -57,7 +57,7 @@ export const createApi = ({
     return getDataOnSuccess(response);
   };
 
-  const mapToUsefulError = <T>(error: AxiosError<T>) => {
+  const mapToUsefulError = (error: AxiosError<SagaError>) => {
     // try get from body
     const messageFromBody = getMessageOnError(error);
     if (messageFromBody) return { message: messageFromBody, error };

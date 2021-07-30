@@ -1,7 +1,10 @@
-import axios, { AxiosPromise } from 'axios';
+import { AxiosPromise } from 'axios';
+import { api } from '..';
+
+
 
 export const ServiceApiDummy = {
   get: (): AxiosPromise<ApiSegChecker> => {
-    return axios.get('https://seg.stage.mj.gov.br/api');
+    return api.get('https://seg.stage.mj.gov.br/api');
   },
 };
