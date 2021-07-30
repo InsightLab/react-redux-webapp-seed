@@ -8,9 +8,9 @@ const httpErrorHandlers = {
 
 };
 
-export const httpErrorHandler = (error: any) => {
+export const httpErrorHandler = <T extends Error>(error: T) => {
 
-	if (error.response) {
+	if ('response' in error) {
 
 		const { status } = error.response;
 		const handler = httpErrorHandlers[status];

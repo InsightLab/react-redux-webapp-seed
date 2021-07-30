@@ -43,7 +43,7 @@ export const createApi = ({
 
   // utility
 
-  const handleError = (error: any) => {
+  const handleError = (error: Error) => {
     // log
     console.error(error);
     // handle http erros
