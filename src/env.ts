@@ -6,7 +6,7 @@ const envValues = (() => {
     .reduce((acc, item) => ({ ...acc, ...item }), {});
 })();
 
-const get = (param) => envValues[param];
+const get = (param: string) => envValues[param];
 
 const env = {
   get,

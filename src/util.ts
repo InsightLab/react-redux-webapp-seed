@@ -1,5 +1,10 @@
 import { keys, filter, pick, equals, compose, isEmpty, isNil } from 'ramda';
 import env from './env';
+
+type IdEvalFunction = <I extends Identifiable>(
+  i: I
+) => <J extends Identifiable>(j: J) => boolean;
+
 /**
  * Empty function.
  * Points to nothing.
@@ -10,13 +15,13 @@ export const limbo = () => {};
 /**
  * Calls an function.
  * @param {Function} fn Function to call.
- * @return {*} Returns of fn execution. 
+ * @return {*} Returns of fn execution.
  */
 export const invoke = <T extends CallableFunction>(fn: T) => fn();
 
 /**
  * Receives and value and returns it.
- * @param {*} i Item. 
+ * @param {*} i Item.
  * @return {*} Item.
  */
 export const identity = <T>(i: T) => i;
@@ -25,7 +30,7 @@ export const identity = <T>(i: T) => i;
  * @param {*} obj Any object that have an id.
  * @return Id value or obj otherwise.
  */
-export const id = <T extends {id: string}>(obj: T) => ((obj || {}).id || obj);
+export const id = <T extends Identifiable>(obj: T) => (obj || {}).id || obj;
 
 /**
  * Curries an function to compare another items (j) to an item (i) by id property.
@@ -37,11 +42,14 @@ export const id = <T extends {id: string}>(obj: T) => ((obj || {}).id || obj);
  * cmpFoo(foo2) // true
  * cmpFoo(bar) // false
  * cmpFoo(null) // false
- * 
+ *
  * @param {*} i Item comparable.
  * @return {Function} function to compare another items (j) to an item (i).
  */
-export const byId = <T extends {id: string}>(i: T) => <J extends {id: string}>(j:J) => id(i) === id(j);
+export const byId =
+  <I extends Identifiable>(i: I) =>
+  <J extends Identifiable>(j: J) =>
+    id<I>(i) === id<J>(j);
 
 /**
  * Curries an function to invert your value.
@@ -50,11 +58,14 @@ export const byId = <T extends {id: string}>(i: T) => <J extends {id: string}>(j
  * const notFn = not(fn);
  * notFn() // false
  * not(notFn)() // true
- * 
+ *
  * @param {Function} fn Function to invert.
  * @return {Function} inverse of function.
  */
-export const not = <T extends CallableFunction>(fn: T) => (...args: any) => !fn(...args);
+export const not =
+  <T extends CallableFunction>(fn: T) =>
+  (...args: any) =>
+    !fn(...args);
 
 /**
  * Converts a value to a integer.
@@ -71,8 +82,11 @@ export const isArray = (value: any) => value instanceof Array;
  * @param {Object} item Item to remove.
  * @return {Array} A new list without item (if exists).
  */
-export const removeById = <F extends {id: string}>(list: Array<F>, item: F, idFn = byId) => 
-  (list || []).filter(not(idFn(item)));
+export const removeById = <T extends Identifiable>(
+  list: T[],
+  item: T,
+  idFn: IdEvalFunction = byId
+) => list.filter(not(idFn<T>(item)));
 
 /**
  * Repalces an item from an list based on your id property.
@@ -80,18 +94,20 @@ export const removeById = <F extends {id: string}>(list: Array<F>, item: F, idFn
  * @param {Object} item Item to replace.
  * @return {Array} A new list with items replaced if id match occurs.
  */
-export const replaceById = <F extends {id: string}>(list: Array<F>, item: F) => 
-  (list || []).map((jtem: F) => (id(jtem) === id(item) && item) || jtem);
+export const replaceById = <T extends Identifiable>(list: T[], item: T) =>
+  list.map((listItem: T) => (listItem.id === item.id ? item : listItem));
 
-/** 
- * Works like replaceById, but instead of replace totally, 
+/**
+ * Works like replaceById, but instead of replace totally,
  * it spread properties (merge).
  * @param {Array} list List to spread in.
  * @param {Object} item Item to spread.
  * @return {Array} A new list with items updated if id match occurs.
-*/
-export const spreadById = <F extends {id: string}>(list: Array<F>, item: F) =>
-  (list || []).map((jtem: F) => (id(jtem) === id(item) && {...jtem, ...item}) || jtem);
+ */
+export const spreadById = <T extends Identifiable>(list: T[], item: T) =>
+  list.map((listItem: T) =>
+    listItem.id === item.id ? { ...listItem, ...item } : listItem
+  );
 
 /**
  * Computes the difference from one object to another.
@@ -105,8 +121,8 @@ export const spreadById = <F extends {id: string}>(list: Array<F>, item: F) =>
  */
 type GenericObject = { [key: string]: any };
 export const objectDiff = (from: GenericObject, to: GenericObject) => {
-  const eq = (k: number) => equals(from[k], to[k]);
-  const pickFrom = (keys: readonly number[]) => pick(keys, from);
+  const eq = (key: string) => equals(from[key], to[key]);
+  const pickFrom = (keys: string[]) => pick(keys, from);
   return compose(
     pickFrom,
     filter(not(eq)),
@@ -116,11 +132,11 @@ export const objectDiff = (from: GenericObject, to: GenericObject) => {
 
 /**
  * Throws an exception when argument is not present.
- * 
+ *
  * Hot to user:
  * const method = ( arg = requiredArg('arg') ) => doStuff(arg);
- * 
- * @param {String} argName Name of argument. 
+ *
+ * @param {String} argName Name of argument.
  */
 export const requiredArg = (argName: string | 'argument'): Error => {
   throw new Error(`${argName} is required`);
@@ -130,22 +146,23 @@ export const requiredArg = (argName: string | 'argument'): Error => {
  * @param {string} path Path to be relative.
  * @return A relative path based on a base taked from environment.
  */
-export const relativePath = path => `${env.basename || ''}${
-  path && ( (path.charAt(0) === '/' && path) || `/${path}` )
-}`;
+export const relativePath = (path) =>
+  `${env.basename || ''}${
+    path && ((path.charAt(0) === '/' && path) || `/${path}`)
+  }`;
 
 /**
  * @param {string} rawBase64 Base 64 string with extension.
  * @return An object with extension and a clean base64 of image.
  */
 export const parseBase64 = (rawBase64: string) => {
-  const arr: string[] = rawBase64.split(',')
-  const match = arr[0].match(/:(.*?);/)
-  const extension = match && match[1]
-  const base64 = arr[1]
-  return { base64, extension }
-}
+  const arr: string[] = rawBase64.split(',');
+  const match = arr[0].match(/:(.*?);/);
+  const extension = match && match[1];
+  const base64 = arr[1];
+  return { base64, extension };
+};
 
-export function isNilOrEmpty(value: any) { 
-  return isNil(value) || isEmpty(value)
+export function isNilOrEmpty(value: any) {
+  return isNil(value) || isEmpty(value);
 }

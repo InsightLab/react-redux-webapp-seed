@@ -27,11 +27,16 @@ export const ReduxSagaReducers = {
     throw new Error();
   },
 
-  arrayUpdate<State, Payload>(
+  arrayUpdate<State extends Identifiable[], Payload extends Identifiable>(
     state: ReduxState<State> | undefined,
     action: ReduxAction<Payload>
   ): ReduxState<State> {
-    if (isArrayState(state) && action.payload && state.data)
+    if (
+      isSagaState(state) &&
+      state.data instanceof Array &&
+      action.payload &&
+      state.data
+    )
       return {
         ...state,
         data: spreadById(state.data, action.payload),
@@ -40,11 +45,16 @@ export const ReduxSagaReducers = {
     throw new Error();
   },
 
-  arrayReplace<State, Payload>(
+  arrayReplace<State extends Identifiable[], Payload extends Identifiable>(
     state: ReduxState<State> | undefined,
     action: ReduxAction<Payload>
   ): ReduxState<State> {
-    if (isArrayState(state) && action.payload && state.data)
+    if (
+      isSagaState(state) &&
+      state.data instanceof Array &&
+      action.payload &&
+      state.data
+    )
       return {
         ...state,
         data: replaceById(state.data, action.payload),
@@ -53,20 +63,19 @@ export const ReduxSagaReducers = {
     throw new Error();
   },
 
-  arrayRemove<State, Payload>(
+  arrayRemove<State extends Identifiable[], Payload extends Identifiable>(
     state: ReduxState<State> | undefined,
     action: ReduxAction<Payload>
   ): ReduxState<State> {
-    if (isArrayState(state) && action.payload && state.data)
+    if (
+      isSagaState(state) &&
+      state.data instanceof Array &&
+      action.payload &&
+      state.data
+    )
       return {
         ...state,
-        data: removeById(
-          state.data,
-          action.payload,
-          ({ id }: { id: number }) =>
-            ({ id: itemId }: { id: number }) =>
-              id === itemId
-        ),
+        data: removeById(state.data, action.payload),
       };
 
     throw new Error();

@@ -1,9 +1,14 @@
 import { FunctionComponent } from 'react';
+import { Card, Status } from './styles';
 
 type Status = {
   status: ApiSegChecker | {};
 };
 
 export const Dummy: FunctionComponent<Status> = ({ status }) => {
-  return <div>{status}</div>;
+  return (
+    <Card>
+      <Status>{status}</Status>
+    </Card>
+  );
 };
