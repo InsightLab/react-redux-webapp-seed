@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { publish } from '../EventBus';
-import { httpErrorHandler } from './errorHandler';
-import { requiredArg, limbo, identity } from '../../util';
+import { requiredArg, limbo, identity } from '../util';
+import { httpErrorHandler } from './api/errorHandler';
 
 type AxiosApi = {
   baseURL: string;
@@ -44,7 +44,7 @@ export const createApi = ({
 
   // utility
 
-  const handleError = (error) => {
+  const handleError = (error: any) => {
     // log
     console.error(error);
     // handle http erros
@@ -57,11 +57,11 @@ export const createApi = ({
     return Promise.reject(usefulError);
   };
 
-  const mapResponseToUsefulData = (response) => {
+  const mapResponseToUsefulData = (response: any) => {
     return getDataOnSuccess(response);
   };
 
-  const mapToUsefulError = (error) => {
+  const mapToUsefulError = (error: any) => {
     // try get from body
     const messageFromBody = getMessageOnError(error);
     if (messageFromBody) return { message: messageFromBody, error };
