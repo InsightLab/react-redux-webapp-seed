@@ -1,22 +1,18 @@
+import { AxiosError } from "axios";
 import { Unauthorized } from "./httpStatus";
 
-const httpErrorHandlers = {
-
-	[ Unauthorized ] : () => {
+const httpErrorHandlers = (error?: AxiosError) => ({
+	[ Unauthorized ] : () => { 
 		console.log("Você não tem autorização")
 	}
+});
 
-};
+export const httpErrorHandler = <T>(error: AxiosError<T>) => {
 
-export const httpErrorHandler = <T extends Error>(error: T) => {
-
-	if ('response' in error) {
-
+	if (error.response) {
 		const { status } = error.response;
-		const handler = httpErrorHandlers[status];
-
-		handler && handler(error)
-
+		const handler = httpErrorHandlers(error)[status];
+		handler && handler()
 	}
 
 };
