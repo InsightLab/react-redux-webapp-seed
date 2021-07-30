@@ -1,21 +1,20 @@
 import axios from 'axios';
-import { publish } from '../EventBus';
 import { requiredArg, limbo, identity } from '../util';
 import { httpErrorHandler } from './api/errorHandler';
 
 type AxiosApi = {
   baseURL: string;
-  getDataOnSuccess: () => void;
-  getMessageOnError: () => void;
+  getDataOnSuccess: <T>(t: T) => T;
+  getMessageOnError: (error: Error) => string;
   headers: object;
 };
 
 export const createApi = ({
-  baseURL = requiredArg('baseUrl'),
+  baseURL,
   getDataOnSuccess = identity,
-  getMessageOnError = limbo,
+  getMessageOnError,
   headers = {},
-}) => {
+}: AxiosApi) => {
   // api declaration
 
   const api = axios.create({
@@ -51,17 +50,15 @@ export const createApi = ({
     httpErrorHandler(error);
     // extract in useful error format
     const usefulError = mapToUsefulError(error);
-    // publish error event
-    publish('error', usefulError);
     // return as promise rejected
     return Promise.reject(usefulError);
   };
 
-  const mapResponseToUsefulData = (response: any) => {
+  const mapResponseToUsefulData = <T>(response: T) => {
     return getDataOnSuccess(response);
   };
 
-  const mapToUsefulError = (error: any) => {
+  const mapToUsefulError = (error: Error) => {
     // try get from body
     const messageFromBody = getMessageOnError(error);
     if (messageFromBody) return { message: messageFromBody, error };

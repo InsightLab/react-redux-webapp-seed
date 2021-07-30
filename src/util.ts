@@ -138,7 +138,7 @@ export const objectDiff = (from: GenericObject, to: GenericObject) => {
  *
  * @param {String} argName Name of argument.
  */
-export const requiredArg = (argName: string | 'argument'): Error => {
+export const requiredArg = (argName: string | 'argument') => {
   throw new Error(`${argName} is required`);
 };
 
@@ -146,10 +146,10 @@ export const requiredArg = (argName: string | 'argument'): Error => {
  * @param {string} path Path to be relative.
  * @return A relative path based on a base taked from environment.
  */
-export const relativePath = (path) =>
+/* export const relativePath = (path) =>
   `${env.basename || ''}${
     path && ((path.charAt(0) === '/' && path) || `/${path}`)
-  }`;
+  }`; */
 
 /**
  * @param {string} rawBase64 Base 64 string with extension.
