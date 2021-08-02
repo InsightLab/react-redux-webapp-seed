@@ -3,7 +3,6 @@ import {
   Redirect,
   Route,
   BrowserRouter as Router,
-  RouterProps,
   Switch,
 } from 'react-router-dom';
 import { ScreenDummyView } from './Dummy/View';

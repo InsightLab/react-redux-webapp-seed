@@ -13,7 +13,7 @@ const screenExtraLargeMin = 1200;
 const customMediaQuery = (maxWidth: number) =>
   `@media (max-width: ${maxWidth}px)`;
 
-export const screen = {
+export const media = {
   custom: customMediaQuery,
   small: customMediaQuery(screenSmallMin),
   medium: customMediaQuery(screenMediumMin),

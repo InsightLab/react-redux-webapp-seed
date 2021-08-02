@@ -6,7 +6,7 @@ import { Dummy } from './View';
 
 export const DummyContainer: FunctionComponent = () => {
   const status = useTypedSelector((state) => state.status);
-  const { loading, data } = status as ReduxSagaState<ApiSegChecker>;
+  const { data } = status as ReduxSagaState<ApiSegChecker>;
   const getStatus = useActionCreator(getSegStatus);
 
   useEffect(() => {

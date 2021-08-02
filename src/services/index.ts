@@ -1,13 +1,13 @@
 import { path } from 'ramda';
 import { createApi } from './util';
-import env from '../env';
 import { AxiosError, AxiosResponse } from 'axios';
 
 const api = createApi({
-  baseURL: "",
+  baseURL: '',
   getDataOnSuccess: <T>(response: AxiosResponse<T>) => response.data,
-  getMessageOnError: (error: AxiosError<SagaError>) => path(['response', 'data', 'message'], error),
-  headers : {}
+  getMessageOnError: (error: AxiosError<SagaError>) =>
+    path(['response', 'data', 'message'], error),
+  headers: {},
 });
 
 // extensions of api

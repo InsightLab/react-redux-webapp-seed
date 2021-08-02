@@ -89,7 +89,7 @@ class SagaController<State, Params, Result> {
 
     return function* (action: ReduxRunAction<Params>): SagaGenerator<State> {
       // returns an saga worker
-      const { type, payload, resolve, reject } = action;
+      const { payload, resolve, reject } = action;
 
       try {
         const result = yield call(asyncTask, payload);

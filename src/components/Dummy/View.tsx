@@ -1,14 +1,16 @@
 import { FunctionComponent } from 'react';
 import { Card, Status } from './styles';
 
-type Status = {
+type DummyProps = {
   status: ApiSegChecker | {};
 };
 
-export const Dummy: FunctionComponent<Status> = ({ status }) => {
+export const Dummy: FunctionComponent<DummyProps> = ({ status }) => {
+  const text = 'status' in status ? status.status : 'Loading...';
+
   return (
     <Card>
-      <Status>{status}</Status>
+      <Status>{text}</Status>
     </Card>
   );
 };

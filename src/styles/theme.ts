@@ -12,8 +12,8 @@ const effects = {
 
 const sizes = {
   borderRadius: '4px',
-  margin: '20px',
-  padding: '20px',
+  margin: '12px',
+  padding: '12px',
 };
 
 export const theme = {

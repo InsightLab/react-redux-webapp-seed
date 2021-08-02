@@ -1,5 +1,4 @@
 import { keys, filter, pick, equals, compose, isEmpty, isNil } from 'ramda';
-import env from './env';
 
 type IdEvalFunction = <I extends Identifiable>(
   i: I
@@ -123,11 +122,7 @@ type GenericObject = { [key: string]: any };
 export const objectDiff = (from: GenericObject, to: GenericObject) => {
   const eq = (key: string) => equals(from[key], to[key]);
   const pickFrom = (keys: string[]) => pick(keys, from);
-  return compose(
-    pickFrom,
-    filter(not(eq)),
-    keys
-  )(from)
+  return compose(pickFrom, filter(not(eq)), keys)(from);
 };
 
 /**

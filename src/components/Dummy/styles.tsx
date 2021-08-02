@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { screen } from '../../styles/screens';
+import { media } from '../../styles/screens';
 
 export const Status = styled.h3`
   color: ${({ theme }) => theme.colors.primary};
@@ -15,11 +15,11 @@ export const Card = styled.div`
   box-shadow: ${({ theme }) => theme.effects.boxShadow};
   border-radius: ${({ theme }) => theme.sizes.borderRadius};
 
-  ${screen.small} {
+  ${media.small} {
     width: 90%;
   }
 
-  ${screen.medium} {
+  ${media.medium} {
     width: 50%;
   }
 `;
