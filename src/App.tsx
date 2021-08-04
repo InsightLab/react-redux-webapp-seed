@@ -1,12 +1,15 @@
-import React from 'react';
-import './App.css';
+import { ProviderRedux } from './redux-providers/ProviderRedux';
+import { ThemeProvider } from 'styled-components';
 import { Root } from './screens/Root';
+import { theme } from './styles/theme';
 
 function App() {
   return (
-    <div className="App">
-      <Root/>
-    </div>
+    <ProviderRedux>
+      <ThemeProvider theme={theme}>
+        <Root />
+      </ThemeProvider>
+    </ProviderRedux>
   );
 }
 
