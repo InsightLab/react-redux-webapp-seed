@@ -1,0 +1,6 @@
+{
+  "env": "development",
+  "gateway": "gateway-sample",
+  "status": "It works! 🚀",
+  "version": "0.1.0"
+}
