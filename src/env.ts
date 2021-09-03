@@ -1,18 +1,15 @@
-const envValues = (() => {
-  const prefix = 'REACT_APP_ENV_';
-  return Object.keys(process.env)
-    .filter((k) => k.startsWith(prefix))
-    .map((k) => ({ [k.replace(prefix, '')]: process.env[k] }))
-    .reduce((acc, item) => ({ ...acc, ...item }), {});
-})();
-
-const get = (param: string) => envValues[param];
-
-const env = {
-  get,
-  ...envValues,
+type Environment = {
+  NODE_ENV: `production` | `development` | `staging`;
+  SERVER_API: string;
 };
 
-console.log('APP ENVIRONMENT: ', env);
+const env = (() => {
+  const reactPrefix = 'REACT_APP_';
+  return Object.entries(process.env)
+    .map(([k, v]) => ({ [k.replace(reactPrefix, '')]: v }))
+    .reduce((acc, item) => ({ ...acc, ...item }), {}) as Environment;
+})();
+
+console.log('ENV:', env);
 
 export default env;
