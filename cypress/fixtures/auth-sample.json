@@ -1,0 +1,9 @@
+{
+  "id": 123,
+  "username": "username",
+  "client": {
+    "name": "User Name",
+    "image": null
+  },
+  "token": "<abc...>"
+}
