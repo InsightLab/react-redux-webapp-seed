@@ -1,15 +1,12 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
-import {
-  getSegStatusReducer,
-  getSegStatusWatcher,
-} from '../components/Dummy/Redux';
+import { getSampleReducer, getSampleWatcher } from '../components/Dummy/Redux';
 
 // reducers
 const reducers = combineReducers({
   // adding reducers
-  status: getSegStatusReducer,
+  status: getSampleReducer,
 });
 
 // create the saga middleware
@@ -23,4 +20,4 @@ export const store = createStore(
 );
 
 // run the saga
-sagaMiddleware.run(getSegStatusWatcher);
+sagaMiddleware.run(getSampleWatcher);

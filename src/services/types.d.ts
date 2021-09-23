@@ -1,8 +1,4 @@
-type Identifiable = {
-  id: string | number;
-};
-
-type ApiSegChecker = {
+type ApiDummySample = {
   gateway: string;
   status: string;
   version: string;

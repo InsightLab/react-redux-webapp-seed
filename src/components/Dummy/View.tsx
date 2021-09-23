@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { Card, Status } from './styles';
 
 type DummyProps = {
-  status: ApiSegChecker | {};
+  status: ApiDummySample | {};
 };
 
 export const Dummy: FunctionComponent<DummyProps> = ({ status }) => {

@@ -1,20 +1,5 @@
-import { path } from 'ramda';
-import { createApi } from './util';
-import { AxiosError, AxiosResponse } from 'axios';
+import * as dummy from './Dummy';
 
-const api = createApi({
-  baseURL: '',
-  getDataOnSuccess: <T>(response: AxiosResponse<T>) => response.data,
-  getMessageOnError: (error: AxiosError<SagaError>) =>
-    path(['response', 'data', 'message'], error),
-  headers: {},
-});
-
-// extensions of api
-
-/* api.setAuth = (token) => {
-  // attach authorization data to sebsequent requests
-  api.defaults.headers.common['Authorization'] = token;
-}; */
-
-export { api };
+export const services = {
+  dummy,
+};

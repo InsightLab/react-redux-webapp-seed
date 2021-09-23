@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { httpErrorHandler } from './api/errorHandler';
+import { httpErrorHandler } from './errorHandler';
 
 type AxiosApi = {
   baseURL: string;

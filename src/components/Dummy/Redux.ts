@@ -1,22 +1,21 @@
-import { ServiceApiDummy } from '../../services/api/Dummy';
-
 import { createSaga } from '../../redux-providers/SagaUtils';
 import { ReduxReducersUtils } from '../../redux-providers/ReducersUtils';
+import { services } from '../../services';
 
-const dummyInitialState: ReduxState<ApiSegChecker> = {
+const dummyInitialState: ReduxState<ApiDummySample> = {
   loading: false,
   data: {},
   error: null,
 };
 
 const getApiStatus = createSaga(
-  'getSegStatus',
-  ServiceApiDummy.get,
+  'dummy.getSample',
+  services.dummy.getSample,
   dummyInitialState
 );
-export const getSegStatus = getApiStatus.actionCreator;
-export const getSegStatusReducer = ReduxReducersUtils.compose<
-  ApiSegChecker,
-  ApiSegChecker
+export const getSample = getApiStatus.actionCreator;
+export const getSampleReducer = ReduxReducersUtils.compose<
+  ApiDummySample,
+  ApiDummySample
 >(getApiStatus.reducer);
-export const getSegStatusWatcher = getApiStatus.watcher;
+export const getSampleWatcher = getApiStatus.watcher;
