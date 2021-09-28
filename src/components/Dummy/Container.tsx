@@ -1,17 +1,16 @@
-import { FunctionComponent, useEffect } from 'react';
-import { useActionCreator } from '../../hooks/ReduxActions';
-import { useTypedSelector } from '../../redux-providers/store';
+import { useEffect } from 'react';
+import { useActionCreator, useTypedSelector } from '../../redux-providers';
 import { getSample } from './Redux';
 import { Dummy } from './View';
 
-export const DummyContainer: FunctionComponent = () => {
+export const DummyContainer = () => {
   const status = useTypedSelector((state) => state.status);
-  const { data } = status as ReduxSagaState<ApiDummySample>;
+  const { data, loading, error } = status as ReduxSagaState<ApiDummySample>;
   const getStatus = useActionCreator(getSample);
 
   useEffect(() => {
     getStatus();
   }, [getStatus]);
 
-  return <Dummy status={data} />;
+  return <Dummy data={data} loading={loading} error={error} />;
 };

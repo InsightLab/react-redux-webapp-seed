@@ -1,4 +1,3 @@
-import { AxiosPromise } from 'axios';
 import { all } from 'redux-saga/effects';
 import { invoke } from '../util';
 import { defaultInitialState, SagaController } from './SagaController';
@@ -17,12 +16,12 @@ export const ReduxSagaUtils = {
 
 export function createSaga<T, Params, Result>(
   name: string,
-  asyncTask: (params: Params) => AxiosPromise<Result>,
+  asyncTask: (params: Params) => Promise<Result>,
   initialState?: ReduxState<T>
 ) {
   const sagaController = new SagaController<T, Params, Result>({
     saga: name,
-    asyncTask: asyncTask,
+    asyncTask,
     initialState: initialState || defaultInitialState,
   });
 

@@ -1,4 +1,3 @@
-import { AxiosPromise } from 'axios';
 import { Dispatch } from 'redux';
 import { takeLatest, takeEvery, call, put } from 'redux-saga/effects';
 import { ReduxReducersUtils } from './ReducersUtils';
@@ -27,7 +26,7 @@ export const defaultInitialState = {
  *
  */
 class SagaController<State, Params, Result> {
-  asyncTask: (params: Params) => AxiosPromise<Result>;
+  asyncTask: (params: Params) => Promise<Result>;
   saga: string;
   options: ReduxOptions<State>;
 
@@ -97,7 +96,7 @@ class SagaController<State, Params, Result> {
         resolve && resolve(result);
         // and yield saga resolve action
         yield put({ type: RESOLVE, payload: result });
-      } catch (exception) {
+      } catch (exception: any) {
         // if error, resolve the promise
         reject && reject(exception);
         // and yield saga reject action
@@ -169,8 +168,7 @@ class SagaController<State, Params, Result> {
         data: action.payload,
       };
     }
-
-    return realState;
+    return { ...realState, loading: false, error: null };
   }
 
   static reducerReject<State, Payload>(
@@ -185,8 +183,7 @@ class SagaController<State, Params, Result> {
         error: action.payload as unknown as SagaError,
       };
     }
-
-    return realState;
+    return { ...realState, loading: false };
   }
 }
 

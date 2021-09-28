@@ -40,7 +40,7 @@ interface ReduxResultAction<Payload> extends ReduxAction<Payload> {
 
 // Reducer
 type ReduxReducer = <State, Payload>(
-  state: ReduxState<State> | undefined,
+  state?: ReduxState<State>,
   action: ReduxAction<Payload>
 ) => ReduxState<State>;
 
@@ -69,7 +69,7 @@ type ActionCreators<Payload, Result> = {
 
 // Saga Controller
 type SagaControllerConstructor<T, Params, Result> = {
-  asyncTask: (params: Params) => import('axios').AxiosPromise<Result>;
+  asyncTask: (params: Params) => Promise<Result>;
   saga: string;
   initialState: ReduxState<T>;
   take?: string;

@@ -1,5 +1,4 @@
-import { createSaga } from '../../redux-providers/SagaUtils';
-import { ReduxReducersUtils } from '../../redux-providers/ReducersUtils';
+import { createSaga, ReduxReducersUtils } from '../../redux-providers';
 import { services } from '../../services';
 
 const dummyInitialState: ReduxState<ApiDummySample> = {
