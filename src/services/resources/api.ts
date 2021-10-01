@@ -1,12 +1,16 @@
 import axios, { AxiosInstance, AxiosError, Method } from 'axios';
 
+const HEADER_AUTH = `Authorization`;
+
 interface ApiParams {
   baseURL: string;
   headers?: any;
 }
 
 interface ApiInstance {
+  baseURL: string;
   setAuthToken: (token: string | null) => void; // attach/detach authorization header to subsequent requests
+  getAuthToken: () => string | null;
   on: (eventType: 'error', callback: (error: ApiError) => void) => void; // catch global http/axios errors
   get: <T = any>(url: string, config?: any) => Promise<T>;
   delete: <T = any>(url: string, config?: any) => Promise<T>;
@@ -72,12 +76,21 @@ const createAxiosRequest = (axiosInstance: AxiosInstance) => {
 
 const createSetAuthToken = (axiosInstance: AxiosInstance) => {
   return (token: string | null) => {
-    const auth = 'Authorization';
     if (token === null) {
-      delete axiosInstance.defaults.headers.common[auth];
+      delete axiosInstance.defaults.headers.common[HEADER_AUTH];
     } else {
-      axiosInstance.defaults.headers.common[auth] = token;
+      axiosInstance.defaults.headers.common[HEADER_AUTH] = token;
     }
+  };
+};
+
+const createGetAuthToken = (
+  axiosInstance: AxiosInstance
+): (() => string | null) => {
+  return () => {
+    const authToken: string =
+      axiosInstance.defaults.headers.common[HEADER_AUTH] || ``;
+    return authToken ? authToken : null;
   };
 };
 
@@ -104,11 +117,14 @@ export const isApiError = (error: any): error is ApiError => {
 export function createApi({ baseURL, headers }: ApiParams): ApiInstance {
   const axiosInstance = createAxiosInstance(baseURL, headers);
   const setAuthToken = createSetAuthToken(axiosInstance);
+  const getAuthToken = createGetAuthToken(axiosInstance);
   const request = createAxiosRequest(axiosInstance);
   const on = createEventListener(axiosInstance);
 
   return {
+    baseURL,
     setAuthToken,
+    getAuthToken,
     on,
     get: <T>(url: string, config?: any) => request<T>('get', url, null, config),
     delete: <T>(url: string, config?: any) =>
