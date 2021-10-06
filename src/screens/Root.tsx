@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import {
   Redirect,
   Route,
@@ -7,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { ScreenDummyView } from './Dummy/View';
 
-export const Root: FunctionComponent = () => {
+export const Root = () => {
   return (
     <Router>
       <Switch>

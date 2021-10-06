@@ -1,5 +1,5 @@
 import { isApiError } from '../../services/resources';
-import { Card, Status } from './styles';
+import { Card, Status, Text } from './styles';
 
 type DummyProps = {
   loading?: boolean;
@@ -22,8 +22,11 @@ export const Dummy = ({ data, loading, error }: DummyProps) => {
   }
 
   return (
-    <Card>
-      <Status>{text}</Status>
-    </Card>
+    <>
+      <Card>
+        <Status>{text}</Status>
+      </Card>
+      <Text>react-redux-webapp-seed</Text>
+    </>
   );
 };

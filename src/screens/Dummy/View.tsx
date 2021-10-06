@@ -1,6 +1,11 @@
-import { FunctionComponent } from 'react';
+import { AccessibilityContainer } from '../../components/Accessibility/Container';
 import { DummyContainer } from '../../components/Dummy/Container';
 
-export const ScreenDummyView: FunctionComponent = () => {
-  return <DummyContainer />;
+export const ScreenDummyView = () => {
+  return (
+    <>
+      <AccessibilityContainer />
+      <DummyContainer />
+    </>
+  );
 };

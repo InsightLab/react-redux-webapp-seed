@@ -3,9 +3,9 @@ import { store } from './Redux';
 import { Provider } from 'react-redux';
 
 // creating provider
-const ProviderRedux: React.FC<{}> = ({ children }) => (
+const ReduxProvider: React.FC<{}> = ({ children }) => (
   <Provider store={store}>{children}</Provider>
 );
 
 // exposing provider
-export { ProviderRedux };
+export { ReduxProvider };

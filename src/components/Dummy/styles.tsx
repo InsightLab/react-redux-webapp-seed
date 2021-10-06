@@ -1,25 +1,34 @@
 import styled from 'styled-components';
-import { media } from '../../styles/screens';
+import { fontFamily, mediaQuery } from '../../theme';
 
 export const Status = styled.h3`
-  color: ${({ theme }) => theme.colors.primary};
-  margin: ${({ theme }) => theme.sizes.margin};
-  padding: ${({ theme }) => theme.sizes.padding};
+  margin: 0;
+  color: ${({ theme }) => theme.text};
+`;
+
+export const Text = styled.p`
+  text-align: center;
+  ${fontFamily.Nunito};
+  font-size: 1.1rem;
+  color: ${(props) => props.theme.text};
+  opacity: 0.5;
 `;
 
 export const Card = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 10vh;
+  ${fontFamily.OpenSans};
+  font-size: 3rem; /* utilizando "rem" para responsividade */
 
-  box-shadow: ${({ theme }) => theme.effects.boxShadow};
-  border-radius: ${({ theme }) => theme.sizes.borderRadius};
-
-  ${media.small} {
-    width: 90%;
+  ${mediaQuery.mediumScreen} {
+    padding-top: 20vh;
+    font-size: 2rem;
   }
 
-  ${media.medium} {
-    width: 50%;
+  ${mediaQuery.smallScreen} {
+    padding-top: 30vh;
+    font-size: 1.5rem;
   }
 `;

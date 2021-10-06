@@ -1,15 +1,14 @@
-import { ThemeProvider } from 'styled-components';
-import { ProviderRedux } from './redux-providers';
+import { ThemeProvider } from './theme';
+import { ReduxProvider } from './redux-providers';
 import { Root } from './screens/Root';
-import { theme } from './styles/theme';
 
 function App() {
   return (
-    <ProviderRedux>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider>
+      <ReduxProvider>
         <Root />
-      </ThemeProvider>
-    </ProviderRedux>
+      </ReduxProvider>
+    </ThemeProvider>
   );
 }
 
