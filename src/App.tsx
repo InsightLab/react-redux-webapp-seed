@@ -1,6 +1,6 @@
 import { ThemeProvider } from './theme';
-import { ReduxProvider } from './redux-providers';
 import { Root } from './screens/Root';
+import ReduxProvider from './redux-tk-providers/provider';
 
 function App() {
   return (

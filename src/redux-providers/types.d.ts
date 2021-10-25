@@ -88,9 +88,7 @@ type ReduxOptions<T> = {
   take?: string;
 };
 
-type ActionKeyedConfig<Props> =
-  | ActionKeyedConfigFunction
-  | ActionKeyedConfigObj;
+type ActionKeyedConfig = ActionKeyedConfigFunction | ActionKeyedConfigObj;
 
 type ActionKeyedConfigFunction<Props> = (props: Props) => string;
 type ActionKeyedConfigObj<Props> = {
