@@ -1,3 +1,4 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSaga } from '../../redux-providers';
 import { services } from '../../services';
 
@@ -15,6 +16,6 @@ const getApiStatus = createSaga<StatusState, {}>(
   dummyInitialState
 );
 
-export const getSample = getApiStatus.actionCreator;
+export const getSampleActionCreator = getApiStatus.actionCreator;
 export const getSampleReducer = getApiStatus.reducer;
 export const getSampleWatcher = getApiStatus.watcher;
