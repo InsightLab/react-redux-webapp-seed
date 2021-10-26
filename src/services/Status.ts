@@ -1,13 +1,13 @@
 import { api, isApiError } from './resources';
 
-export const getSample = () => {
-  return api.get<ApiDummySample>(`data/sample.json`);
+export const getStatus = () => {
+  return api.get<ApiStatus>(`data/sample.json`);
 };
 
 // demonstração de tratamento promise
 export const getSampleInDebug = () => {
   return api
-    .get<ApiDummySample>(`data/sample.json`)
+    .get<ApiStatus>(`data/sample.json`)
     .then((data) => {
       console.log(`services.dummy.getSample ~ Success:`, data);
       return data;

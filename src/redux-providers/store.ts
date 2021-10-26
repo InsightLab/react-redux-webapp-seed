@@ -1,10 +1,13 @@
 import createSagaMiddleware from '@redux-saga/core';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import { getSampleReducer, getSampleWatcher } from '../components/Dummy/Redux';
+import {
+  getStatusReducer,
+  getStatusWatcher,
+} from '../components/Entities/Status/Redux';
 
 const reducer = combineReducers({
-  status: getSampleReducer,
+  status: getStatusReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -15,7 +18,7 @@ export const store = configureStore({
   middleware,
 });
 
-sagaMiddleware.run(getSampleWatcher);
+sagaMiddleware.run(getStatusWatcher);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type TypedDispatch = typeof store.dispatch;

@@ -1,12 +1,14 @@
 import { ThemeProvider } from './theme';
-import { Root } from './screens/Root';
-import ReduxProvider from './redux-providers/provider';
+import { RoutesManager } from './components/RoutesManager';
+import { ReduxProvider } from './redux-providers';
+import { AccessibilityHeader } from './components/UI';
 
 function App() {
   return (
     <ThemeProvider>
       <ReduxProvider>
-        <Root />
+        <AccessibilityHeader />
+        <RoutesManager />
       </ReduxProvider>
     </ThemeProvider>
   );
