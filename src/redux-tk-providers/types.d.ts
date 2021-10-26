@@ -17,10 +17,3 @@ type AsyncTask<Args, Result> = (...args: Args[]) => Promise<Result>;
 type AsyncActionCreator<Args, Result> = (
   ...args: Args[]
 ) => (dispatch: TypedDispatch) => Promise<Result>;
-
-type RunAction<Args, Result> = {
-  type: string;
-  payload: Args;
-  resolve: (result: Result) => void;
-  reject: (error: any) => void;
-};

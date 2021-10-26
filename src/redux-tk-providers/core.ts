@@ -2,6 +2,13 @@ import { call, put, takeEvery } from '@redux-saga/core/effects';
 import { createSlice } from '@reduxjs/toolkit';
 import { TypedDispatch } from './store';
 
+type RunAction<Args, Result> = {
+  type: string;
+  payload: Args;
+  resolve: (result: Result) => void;
+  reject: (error: any) => void;
+};
+
 export function createSaga<State, Args>(
   name: string,
   asyncTask: AsyncTask<Args, State>,
