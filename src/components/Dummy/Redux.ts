@@ -1,4 +1,3 @@
-import { createSlice } from '@reduxjs/toolkit';
 import { createSaga } from '../../redux-providers';
 import { services } from '../../services';
 
