@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import {
   useAsyncActionCreator,
   useTypedSelector,
-} from '../../redux-tk-providers';
+} from '../../redux-providers';
 import { getSample } from './Redux';
 import { Dummy } from './View';
 

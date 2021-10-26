@@ -1,4 +1,4 @@
-import { createSaga } from '../../redux-tk-providers';
+import { createSaga } from '../../redux-providers';
 import { services } from '../../services';
 
 type StatusState = ApiDummySample | {};

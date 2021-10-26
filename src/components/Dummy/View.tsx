@@ -3,7 +3,7 @@ import { Card, Status, Text } from './styles';
 
 type DummyProps = {
   loading?: boolean;
-  error?: SagaError | ApiError | null;
+  error?: ApiError | null;
   data: ApiDummySample | {};
 };
 
