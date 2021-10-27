@@ -1,7 +1,7 @@
 import { useTheme } from 'styled-components';
 import { ButtonBar } from './View';
 
-export const AccessibilityContainer = () => {
+export const AccessibilityHeader = () => {
   const theme = useTheme();
 
   function clickLibras() {

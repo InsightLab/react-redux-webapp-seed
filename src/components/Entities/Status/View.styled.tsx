@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { fontFamily, mediaQuery } from '../../theme';
+import { fontFamily, mediaQuery } from '../../../theme';
 
 export const Status = styled.h3`
   margin: 0;

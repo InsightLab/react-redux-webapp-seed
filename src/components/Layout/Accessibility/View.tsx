@@ -5,7 +5,7 @@ import {
   BtnFontPlus,
   BtnToggleTheme,
   BtnLibras,
-} from './styles';
+} from './Styles';
 
 interface Props {
   darkMode: boolean;
