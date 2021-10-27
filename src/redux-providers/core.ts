@@ -9,14 +9,12 @@ type RunAction<Args, Result> = {
   reject: (error: any) => void;
 };
 
-export function createSaga<State, Args>(
-  name: string,
-  asyncTask: AsyncTask<Args, State>,
-  initialState: SimpleSagaState<State>,
-  options: SagaOptions = {}
-) {
-  const takeFn = options?.takeFn || takeEvery;
-
+export function createSaga<State, Args>({
+  name,
+  asyncTask,
+  initialState,
+  takeFn = takeEvery,
+}: SagaOptions<State, Args>) {
   const sagaSlice = createSlice({
     name,
     initialState,

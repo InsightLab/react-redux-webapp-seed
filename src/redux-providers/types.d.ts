@@ -8,11 +8,14 @@ type TakeEveryEffect = typeof import('@redux-saga/core/effects').takeEvery;
 
 type TakeLatestEffect = typeof import('@redux-saga/core/effects').takeLatest;
 
-type SagaOptions = {
+type AsyncTask<Args, Result> = (...args: Args[]) => Promise<Result>;
+
+type SagaOptions<State, Args> = {
+  name: string;
+  initialState: SimpleSagaState<State>;
+  asyncTask: AsyncTask<Args, State>;
   takeFn?: TakeEveryEffect | TakeLatestEffect;
 };
-
-type AsyncTask<Args, Result> = (...args: Args[]) => Promise<Result>;
 
 type AsyncActionCreator<Args, Result> = (
   ...args: Args[]

@@ -1,4 +1,4 @@
-import { Card, Status, Text } from './Styles';
+import { Card, Status, Text } from './View.styled';
 
 type StatusViewProps = {
   status: ApiStatus | {};

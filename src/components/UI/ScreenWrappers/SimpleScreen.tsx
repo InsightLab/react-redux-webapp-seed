@@ -17,3 +17,14 @@ export const SimpleScreen: React.FC<SimpleScreenProps> = ({
 }) => {
   return <div>{children}</div>;
 };
+
+export function wrapSimpleScreen(
+  Component: React.FC<{}>,
+  options?: SimpleScreenOptions
+): React.ComponentType<any> {
+  return () => (
+    <SimpleScreen options={options}>
+      <Component />
+    </SimpleScreen>
+  );
+}

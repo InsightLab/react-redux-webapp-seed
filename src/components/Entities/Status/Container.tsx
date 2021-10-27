@@ -2,14 +2,8 @@ import { Loading } from '../../UI';
 import { useStatusState } from './State';
 import { StatusView } from './View';
 
-export type StatusState = {
-  statusLoading: boolean;
-  statusData: ApiStatus | {};
-  statusError: ApiError;
-};
-
 export const StatusContainer = () => {
-  const { statusLoading, statusData } = useStatusState();
+  const { loading: statusLoading, data: statusData } = useStatusState();
 
   if (statusLoading) return <Loading />;
 

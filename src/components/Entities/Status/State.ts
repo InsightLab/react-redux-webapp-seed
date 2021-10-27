@@ -1,22 +1,23 @@
 import { useEffect } from 'react';
 import {
+  useActionCreator,
   useAsyncActionCreator,
   useTypedSelector,
 } from '../../../redux-providers';
-import { StatusState } from './Container';
-import { getStatusActionCreator } from './Redux';
+import { clearStatusActionCreator, getStatusActionCreator } from './Redux';
 
-export function useStatusState(): StatusState {
+export function useStatusState() {
   const status = useTypedSelector((state) => state.status);
   const getStatus = useAsyncActionCreator(getStatusActionCreator);
+  const clearStatus = useActionCreator(clearStatusActionCreator);
 
   useEffect(() => {
     getStatus();
-  }, [getStatus]);
 
-  return {
-    statusLoading: status.loading,
-    statusData: status.data,
-    statusError: status.error,
-  };
+    return () => {
+      clearStatus();
+    };
+  }, [getStatus, clearStatus]);
+
+  return status;
 }

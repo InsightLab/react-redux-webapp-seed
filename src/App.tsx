@@ -1,7 +1,7 @@
 import { ThemeProvider } from './theme';
-import { RoutesManager } from './components/RoutesManager';
+import { RoutesManager } from './routes';
 import { ReduxProvider } from './redux-providers';
-import { AccessibilityHeader } from './components/UI';
+import { AccessibilityHeader } from './components/Layout';
 
 function App() {
   return (
