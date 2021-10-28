@@ -1,3 +1,5 @@
+import { LoadingText } from './index.styled';
+
 type LoadingProps = {
   loadingText?: string;
 };
@@ -5,5 +7,5 @@ type LoadingProps = {
 export const Loading: React.FC<LoadingProps> = ({
   loadingText = 'Loading...',
 }: LoadingProps) => {
-  return <div>{loadingText}</div>;
+  return <LoadingText>{loadingText}</LoadingText>;
 };

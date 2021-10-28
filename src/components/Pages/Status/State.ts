@@ -3,7 +3,7 @@ import {
   useActionCreator,
   useAsyncActionCreator,
   useTypedSelector,
-} from '../../../redux-providers';
+} from '../../../redux';
 import { clearStatusActionCreator, getStatusActionCreator } from './Redux';
 
 export function useStatusState() {

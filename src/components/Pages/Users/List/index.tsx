@@ -13,7 +13,7 @@ function useUsersListState() {
   };
 }
 
-export const UsersListContainer = () => {
+export const UsersListPage = () => {
   const { users } = useUsersListState();
 
   return <UsersListView users={users} />;

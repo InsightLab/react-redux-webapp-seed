@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { composeReducers, createSaga } from '../../../redux-providers';
+import { composeReducers, createSaga } from '../../../redux';
 import { services } from '../../../services';
 
 type StatusState = ApiStatus | {};
