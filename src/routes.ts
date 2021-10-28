@@ -1,28 +1,25 @@
-import { wrapDefaultLayout as wrapDefaultPageLayout } from './components/Layout';
-import { NotFoundPage } from './components/Pages/NotFound';
-import { StatusPage } from './components/Pages/Status';
-import { UsersFormPage } from './components/Pages/Users/Form';
-import { UsersListPage } from './components/Pages/Users/List';
+import * as pages from './components/Pages';
+import { wrapDefaultPageLayout } from './components/Layout';
 import { isAdmin, isAdminOrManager } from './validators';
 
 export const routes: TRoute[] = [
   {
     path: '/',
-    component: wrapDefaultPageLayout(StatusPage),
+    component: wrapDefaultPageLayout(pages.StatusPage),
     validator: isAdminOrManager,
   },
   {
     path: '/users',
-    component: wrapDefaultPageLayout(UsersListPage),
+    component: wrapDefaultPageLayout(pages.UsersListPage),
     validator: isAdminOrManager,
   },
   {
     path: '/users/(new|edit)/:id?',
-    component: wrapDefaultPageLayout(UsersFormPage),
+    component: wrapDefaultPageLayout(pages.UsersFormPage),
     validator: isAdmin,
   },
   {
     path: '*',
-    component: wrapDefaultPageLayout(NotFoundPage),
+    component: wrapDefaultPageLayout(pages.NotFoundPage),
   },
 ];

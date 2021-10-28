@@ -3,7 +3,7 @@ import {
   DefaultPageLayoutOptions,
 } from './DefaultPageLayout';
 
-export function wrapDefaultLayout(
+export function wrapDefaultPageLayout(
   Component: React.FC<{}>,
   options?: DefaultPageLayoutOptions
 ): React.ComponentType<any> {
