@@ -2,10 +2,10 @@ type Identifiable = {
   id: string | number;
 };
 
-type UserMe = {};
+type TUserMe = {};
 
 type TRoute = {
   path: string;
   component: any;
-  validator?: (user: UserMe) => boolean;
+  validator?: (user: TUserMe) => boolean;
 };

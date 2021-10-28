@@ -3,7 +3,7 @@ import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { routes } from '../../routes';
 
 export const PagesManager = () => {
-  const [user] = useState<UserMe>({}); // This is just a mockup
+  const [user] = useState<TUserMe>({}); // This is just a mockup
 
   const toRoutePageMapping = useCallback(
     ({ validator, ...route }: TRoute) => {
