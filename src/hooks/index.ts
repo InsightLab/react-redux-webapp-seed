@@ -1,1 +1,1 @@
-export * from './AsyncRequest';
+export * from './useAsyncRequest';

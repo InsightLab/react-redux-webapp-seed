@@ -1,5 +1,5 @@
 import { ThemeProvider } from './theme';
-import { ReduxProvider } from './redux-providers';
+import { ReduxProvider } from './redux';
 import { AccessibilityHeader } from './components/Layout';
 import { PagesManager } from './components/Pages/PagesManager';
 
