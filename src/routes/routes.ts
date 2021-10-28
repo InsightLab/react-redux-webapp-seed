@@ -1,10 +1,15 @@
 import { StatusContainer } from '../components/Entities/Status/Container';
 import { UsersFormContainer } from '../components/Entities/Users/Form/Container';
 import { UsersListContainer } from '../components/Entities/Users/List/Container';
-import { wrapSimpleScreen } from '../components/UI';
+import { NotFound, wrapSimpleScreen } from '../components/UI';
 import { isAdmin, isAdminOrManager } from './validators';
 
 export const routes: TRoute[] = [
+  {
+    path: '/',
+    component: wrapSimpleScreen(StatusContainer),
+    validator: isAdminOrManager,
+  },
   {
     path: '/users',
     component: wrapSimpleScreen(UsersListContainer),
@@ -17,6 +22,6 @@ export const routes: TRoute[] = [
   },
   {
     path: '*',
-    component: wrapSimpleScreen(StatusContainer),
+    component: wrapSimpleScreen(NotFound),
   },
 ];

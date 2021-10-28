@@ -9,11 +9,13 @@ export const RoutesManager = () => {
     ({ validator, ...route }: TRoute) => {
       const routeComponent = <Route key={route.path} exact={true} {...route} />;
 
-      if (validator && user) {
-        return validator(user) && routeComponent;
+      if (!validator) {
+        return routeComponent;
       }
-
-      return routeComponent;
+      if (user) {
+        return validator(user) ? routeComponent : null;
+      }
+      // redirect to login page ?
     },
     [user]
   );
