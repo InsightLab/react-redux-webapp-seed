@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { NotFound } from '.';
+import { NotFoundPage } from '.';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-describe(NotFound, () => {
+describe(NotFoundPage, () => {
   it(`render 404 code`, () => {
     const history = createMemoryHistory();
     render(
       <Router history={history}>
-        <NotFound />
+        <NotFoundPage />
       </Router>
     );
     const code = screen.getByText(/404/);
@@ -22,7 +22,7 @@ describe(NotFound, () => {
     history.push(path404);
     render(
       <Router history={history}>
-        <NotFound />
+        <NotFoundPage />
       </Router>
     );
     const textPath = screen.getByText(path404);

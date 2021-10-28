@@ -1,17 +1,18 @@
 import { useCallback, useState } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import { routes } from './routes';
+import { routes } from '../../routes';
 
-export const RoutesManager = () => {
-  const [user] = useState<UserMe>(); // This is just a mockup
+export const PagesManager = () => {
+  const [user] = useState<UserMe>({}); // This is just a mockup
 
-  const createRoute = useCallback(
+  const toRoutePageMapping = useCallback(
     ({ validator, ...route }: TRoute) => {
       const routeComponent = <Route key={route.path} exact={true} {...route} />;
 
       if (!validator) {
         return routeComponent;
       }
+
       if (user) {
         return validator(user) ? routeComponent : null;
       }
@@ -22,7 +23,7 @@ export const RoutesManager = () => {
 
   return (
     <BrowserRouter>
-      <Switch>{routes.map(createRoute)}</Switch>
+      <Switch>{routes.map(toRoutePageMapping)}</Switch>
     </BrowserRouter>
   );
 };

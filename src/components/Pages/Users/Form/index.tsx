@@ -13,7 +13,7 @@ function useUsersFormState() {
   };
 }
 
-export const UsersFormContainer = () => {
+export const UsersFormPage = () => {
   const { user } = useUsersFormState();
 
   return <UsersFormView user={user} />;
