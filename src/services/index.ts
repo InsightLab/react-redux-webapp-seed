@@ -1,7 +1,7 @@
-import * as dummy from './Status';
+import * as status from './Status';
 import * as sensors from './Sensors';
 
 export const services = {
-  status: dummy,
+  status,
   sensors,
 };

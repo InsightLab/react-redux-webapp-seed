@@ -1,2 +1,2 @@
 export * from './useAsyncRequest';
-export * from './useAuthorization';
+export * from './useAuth';

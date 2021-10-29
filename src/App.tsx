@@ -1,7 +1,7 @@
 import { ThemeProvider } from './theme';
 import { ReduxProvider } from './redux';
 import { AccessibilityHeader } from './components/Layout';
-import { PagesManager } from './components/Pages/PagesManager';
+import { PagesManager } from './components/PagesManager';
 
 function App() {
   return (

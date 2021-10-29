@@ -1,4 +1,5 @@
 import { Reducer, useCallback, useMemo, useReducer } from 'react';
+import { useIsMounted } from 'usehooks-ts';
 
 type ResultState<State> = {
   loading: boolean;
@@ -26,7 +27,7 @@ export function useAsyncRequest<State, Args>(
   request: AsyncTask<Args, State>,
   initialState: State
 ) {
-  const sagaInitialState: ResultState<State> = {
+  const wrappedInitialState: ResultState<State> = {
     loading: false,
     data: initialState,
   };
@@ -38,18 +39,18 @@ export function useAsyncRequest<State, Args>(
     switch (action.type) {
       case 'run':
         return {
-          ...sagaInitialState,
+          ...wrappedInitialState,
           loading: true,
         };
       case 'resolve':
         return {
-          ...sagaInitialState,
+          ...wrappedInitialState,
           loading: false,
           data: action.payload,
         };
       case 'reject':
         return {
-          ...sagaInitialState,
+          ...wrappedInitialState,
           loading: false,
           error: action.payload,
         };
@@ -58,20 +59,26 @@ export function useAsyncRequest<State, Args>(
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, sagaInitialState);
+  const [state, dispatch] = useReducer(reducer, wrappedInitialState);
+  const isMounted = useIsMounted();
+
+  const safeDispatch = useCallback(
+    (action: Action<State>) => isMounted() && dispatch(action),
+    [isMounted, dispatch]
+  );
 
   const asyncTask = useCallback(
     (...params: Args[]) => {
-      dispatch({ type: 'run' });
+      safeDispatch({ type: 'run' });
       request(...params)
         .then((result) => {
-          dispatch({ type: 'resolve', payload: result });
+          safeDispatch({ type: 'resolve', payload: result });
         })
         .catch((error) => {
-          dispatch({ type: 'reject', payload: error });
+          safeDispatch({ type: 'reject', payload: error });
         });
     },
-    [request, dispatch]
+    [request, safeDispatch]
   );
 
   return useMemo(() => ({ state, asyncTask }), [state, asyncTask]);
