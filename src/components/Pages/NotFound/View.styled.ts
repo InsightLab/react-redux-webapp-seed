@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { fontFamily } from '../../../theme';
 
-export const Wrapper = styled.section`
+export const View = styled.section`
   padding-top: 100px;
   text-align: center;
   ${fontFamily.Nunito};
