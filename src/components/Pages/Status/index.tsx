@@ -1,4 +1,4 @@
-import { Loading } from '../../UI';
+import { Loading } from '../../Shared';
 import { useStatusState } from './State';
 import { StatusView } from './View';
 

@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import { useAuthorization } from '../../hooks';
 import { routes } from '../../routes';
-import { ErrorBoundary } from '../UI';
+import { ErrorBoundary } from '../Shared';
 
 export const PagesManager = () => {
-  const [user] = useState<TUserMe>({}); // This is just a mockup
+  const user = useAuthorization();
 
   const toRoutePageMapping = useCallback(
     ({ validator, ...route }: TRoute) => {
@@ -17,7 +18,6 @@ export const PagesManager = () => {
       if (user) {
         return validator(user) ? routeComponent : null;
       }
-      // redirect to login page ?
     },
     [user]
   );
