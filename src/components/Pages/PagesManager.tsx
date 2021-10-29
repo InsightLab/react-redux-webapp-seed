@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { routes } from '../../routes';
+import { ErrorBoundary } from '../UI';
 
 export const PagesManager = () => {
   const [user] = useState<TUserMe>({}); // This is just a mockup
@@ -23,7 +24,9 @@ export const PagesManager = () => {
 
   return (
     <BrowserRouter>
-      <Switch>{routes.map(toRoutePageMapping)}</Switch>
+      <ErrorBoundary>
+        <Switch>{routes.map(toRoutePageMapping)}</Switch>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };
