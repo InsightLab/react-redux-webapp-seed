@@ -1,6 +1,6 @@
 import { ThemeProvider } from './theme';
 import { ReduxProvider } from './redux';
-import { AccessibilityHeader } from './components/Layout';
+import { AccessibilityHeader } from './components/layout';
 import { PagesManager } from './components/PagesManager';
 
 function App() {

@@ -1,7 +1,7 @@
 import createSagaMiddleware from '@redux-saga/core';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import * as status from '../components/Pages/Status/Redux';
+import * as status from '../components/pages/Status/Redux';
 
 const reducer = combineReducers({
   status: status.reducer,

@@ -2,21 +2,21 @@ import { useCallback } from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { useAuth } from '../hooks';
 import { routes } from '../routes';
-import { ErrorBoundary } from './Shared';
+import { ErrorBoundary } from './shared';
 
 export const PagesManager = () => {
   const user = useAuth();
 
   const toRoutePageMapping = useCallback(
-    ({ validator, ...route }: TRoute) => {
+    ({ permission, ...route }: TRoute) => {
       const routeComponent = <Route key={route.path} exact={true} {...route} />;
 
-      if (!validator) {
+      if (!permission) {
         return routeComponent;
       }
 
       if (user) {
-        return validator(user) ? routeComponent : null;
+        return permission(user) ? routeComponent : null;
       }
     },
     [user]

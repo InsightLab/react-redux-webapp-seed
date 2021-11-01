@@ -1,22 +1,22 @@
-import * as pages from './components/Pages';
-import { wrapDefaultPageLayout } from './components/Layout';
-import { isAdmin, isAdminOrManager } from './validators';
+import * as pages from './components/pages';
+import { wrapDefaultPageLayout } from './components/layout';
+import { isAdmin, isAdminOrManager } from './permissions';
 
 export const routes: TRoute[] = [
   {
     path: '/',
     component: wrapDefaultPageLayout(pages.StatusPage),
-    validator: isAdminOrManager,
+    permission: isAdminOrManager,
   },
   {
     path: '/users',
     component: wrapDefaultPageLayout(pages.UsersListPage),
-    validator: isAdminOrManager,
+    permission: isAdminOrManager,
   },
   {
     path: '/users/(new|edit)/:id?',
     component: wrapDefaultPageLayout(pages.UsersFormPage),
-    validator: isAdmin,
+    permission: isAdmin,
   },
   {
     path: '*',
