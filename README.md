@@ -1,46 +1,86 @@
-# Getting Started with Create React App
+# react-redux-webapp-seed
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Repositório Template contendo estrutura base visando facilitar o início de um novo projeto ReactJS.
+Listamos aqui algumas bibliotecas e conceitos que acreditamos ser bastante úteis durante o desenvolvimento.
 
-## Available Scripts
+### Bibliotecas
 
-In the project directory, you can run:
+> **TypeScript** ~ maior escalabilidade devido ao código mais legível e confiável/tipagem
+> **React, React-DOM, React-Router** ~ ReactJS para Web com gerenciador de Rotas
+> **Redux Toolkit, Thunk, Saga** ~ definição de estados compartilhados/globais
+> **Cypress** ~ testes de integração com dados mock - foco inicial em "testes de aceitação"
+> **Jest, Testing-Library** ~ testes unitários para componentes/custom-hooks mais críticos
+> **Styled-Components** ~ melhor componentização definindo estilos mais isolados via CSS-in-JS
+> **Axios** ~ melhor controle de requisições web para diferentes APIs
+> **Ramda, useHooksTS** ~ funções e hooks utilitários
 
-### `yarn start`
+### Estrutura Geral
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+O template possui uma separação lógica inicial para os diferentes tipos de componentes.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+.
+├── cypress   # testes de integração
+├── public    # arquivos estáticos públicos
+└── src
+     ├── components   # todos os componentes visuais React
+     │    ├── layout  # componentes de layout (header, footer, etc)
+     │    ├── pages   # componentes de página
+     │    └── shared  # componentes compartilhados entre páginas e/ou layout
+     ├── hooks   # hooks de uso geral como useAsyncRequest, useAuth,...
+     ├── redux   # configurações redux e redux-saga
+     ├── theme   # definição de estilos globais, fontes, dark-mode,...
+     └── services         # comunicação com serviços externos
+          └── resources   # configurações axios, websockets, event-sources,...
+```
 
-### `yarn test`
+### Alguns Conceitos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Na tentativa de controlar um pouco o crescimento da complexidade do software, sugerimos alguns conceitos simples porém importantes.
 
-### `yarn build`
+##### C1 - Pensar em componentes isolados
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Componentes específicos de uma página devem ser definidos próximo ao componente que o utiliza.
+Assumir que alguém irá utilizar o novo componente fará que o diretório **shared** tenha muitos componentes, às vezes sendo utilizado apenas por uma única página - ou nenhuma.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+##### C2 - Gerenciamento de estados por custom hooks
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Sempre que um componente estiver definindo muitos estados/useState tente isolar esses dados em um custom hook. Se o estado precisa ser compartilhado entre diferentes componentes da aplicação, o custom hook será a interface de abstração ao dado - seja via Context API ou Redux.
 
-### `yarn eject`
+##### C3 - Testes com foco em documentação
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Quando necessário, tentar definir testes pensando sempre na especificação do software (testes de aceitação) utilizando o Cypress com dados mock. Para testes unitários optamos por criar um arquivo de mesmo nome com sufixo **.test** - isolando no mesmo diretório o componente e seus testes.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Componente Exemplo
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Um componente **UserProfilePage** poderia ser inicialmente definido nesta estrutura
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+.
+└── src/pages/User/Profile/
+     ├── index.tsx        # define/exporta componente UserProfilePage
+     ├── State.ts         # custom-hooks contendo estados/comportamentos da página
+     ├── View.tsx         # componente visual que recebe todos os valores via props
+     ├── View.styled.tsx  # estilos específicos para o componente View
+     └── View.test.tsx    # testes unitários do componente View para diferentes props
+```
 
-## Learn More
+PS1: Podemos criar um **State.test.ts** uma vez que nossos estados estão isolados via um custom-hook.
+PS2: Caso nosso componente View utilize apenas componentes de **shared/** então **View.styled.tsx** pode ser removido.
+PS3: Testar nosso componente View é simples uma vez que o mesmo apenas renderiza props.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Rotas
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Todas as rotas possíveis da aplicação são definidas no arquivo **src/routes.ts**
+
+```javascript
+// ...
+export const routes: TRoute[] = [
+  {
+    path: '/users',
+    component: pages.UsersListPage, // # algum componente de página
+    permission: () => true, // # alguma função para validar permissões do usuário
+  },
+  // ...
+];
+```
