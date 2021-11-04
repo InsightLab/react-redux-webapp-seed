@@ -6,14 +6,14 @@ Listamos aqui algumas bibliotecas e conceitos que acreditamos ser bastante útei
 
 ### Bibliotecas
 
-> **TypeScript** ~ traz mais legibilidade e confiabilidade ao JavaScript tradicional
-> **React, React-DOM, React-Router** ~ ReactJS para Web com gerenciador de Rotas
-> **Redux Toolkit, Thunk, Saga** ~ gerenciamento de estados globais
-> **Cypress** ~ testes de integração com dados *mockados* com foco inicial em "testes de aceitação"
-> **Jest, Testing-Library** ~ testes unitários para componentes e *custom hooks* mais críticos
-> **Styled-Components** ~ melhor componentização definindo estilos vinculados a componentes React utilizando uma abordagem *CSS-in-JS*
-> **Axios** ~ melhor controle de requisições web para diferentes APIs
-> **Ramda, useHooksTS** ~ conjuntos de funções e hooks utilitários de propósito geral
+> **TypeScript** ~ traz mais legibilidade e confiabilidade ao JavaScript tradicional  
+> **React, React-DOM, React-Router** ~ ReactJS para Web com gerenciador de Rotas  
+> **Redux Toolkit, Thunk, Saga** ~ gerenciamento de estados globais  
+> **Cypress** ~ testes de integração com dados *mockados* com foco inicial em "testes de aceitação"  
+> **Jest, Testing-Library** ~ testes unitários para componentes e *custom hooks* mais críticos  
+> **Styled-Components** ~ melhor componentização definindo estilos vinculados a componentes React utilizando uma abordagem *CSS-in-JS*  
+> **Axios** ~ melhor controle de requisições web para diferentes APIs  
+> **Ramda, useHooksTS** ~ conjuntos de funções e hooks utilitários de propósito geral  
 
 ### Estrutura Geral
 
@@ -77,9 +77,9 @@ Um componente chamado **UserProfilePage** poderia ser inicialmente definido nest
      └── View.test.tsx    # testes unitários do componente View para diferentes props
 ```
 
-Obs1: Podemos criar um `State.test.ts` uma vez que nossos estados estão isolados via um *custom hook*.
-Obs2: Caso nosso componente `View` utilize apenas componentes do diretório `shared`, então o arquivo `View.styled.tsx` pode ser removido.
-Obs3: Testar nosso componente `View` é simples uma vez que o mesmo apenas renderiza props.
+_Obs1:_ Podemos criar um `State.test.ts` uma vez que nossos estados estão isolados via um *custom hook*.  
+_Obs2:_ Caso nosso componente `View` utilize apenas componentes do diretório `shared`, então o arquivo `View.styled.tsx` pode ser removido.  
+_Obs3:_ Testar nosso componente `View` é simples uma vez que o mesmo apenas renderiza props.  
 
 ### Rotas
 
@@ -89,9 +89,9 @@ Todas as rotas possíveis da aplicação deverão ser definidas no arquivo `src/
 // ...
 export const routes: TRoute[] = [
   {
-    path: '/users', 					 	// a rota propriamente dita para uma página
-    component: pages.UsersListPage, 	 	// o componente de página relacionado à rota definida
-    permission: (user: TUserMe) => true, 	// função para validar as permissões do usuário à rota definida
+    path: '/users',                      // a rota propriamente dita para uma página
+    component: pages.UsersListPage,      // o componente de página relacionado à rota definida
+    permission: (user: TUserMe) => true, // função para validar as permissões do usuário à rota definida
   },
   // ...
 ];
