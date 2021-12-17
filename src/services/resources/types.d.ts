@@ -1,3 +1,9 @@
+type ApiHeaderValue = string | number | boolean | null | undefined;
+
+type ApiHeaders = {
+  [key: string]: ApiHeaderValue;
+};
+
 interface ApiError {
   isApiError: boolean; // flag
   url: string;
