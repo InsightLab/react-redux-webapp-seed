@@ -33,19 +33,21 @@ interface ConnOptions {
 }
 
 interface ConnReturn<TData> {
-  send: (data: TData) => void;
+  send: (data: TData) => boolean;
   close: (event?: any) => void;
 }
 
-const notEmpty = (data: any) => {
+const notEmpty = (data: ApiHeaderValue) => {
   return data !== undefined && data !== null && data !== ``;
 };
 
-const generateFullURL = (url: string, params: any) => {
+const generateFullURL = (url: string, params: ApiHeaders) => {
   const hasQueryString = url.includes(`?`);
-  const query = Object.keys(params)
-    .filter((key) => notEmpty(params[key]))
-    .map((key) => key + `=` + encodeURI(params[key]))
+  const query = Object.entries(params)
+    .map(([key, value]) => {
+      return notEmpty(value) ? `${key}=${encodeURI('' + value)}` : false;
+    })
+    .filter((value) => value)
     .join(`&`);
   const strJoin = hasQueryString ? `&` : `?`;
   const fullUrl = url + strJoin + query;
@@ -54,7 +56,7 @@ const generateFullURL = (url: string, params: any) => {
 
 export const createConnection = <TData>(
   url: string,
-  params: any,
+  params: ApiHeaders,
   options: ConnOptions
 ): ConnReturn<TData> => {
   const fullURL = generateFullURL(url, params);
@@ -64,23 +66,27 @@ export const createConnection = <TData>(
 
   let reconnectTimer: any = 0;
 
-  const send = (data: TData) => {
+  const send = (data: TData): boolean => {
     if ('send' in conn) {
-      const chunk = JSON.stringify(data);
-      conn.send(chunk);
-    } else {
-      console.warn(`you can't send data on EventSource connection!`);
+      const connected = conn.readyState === conn.OPEN;
+      if (connected) {
+        const chunk = JSON.stringify(data);
+        conn.send(chunk);
+      }
+      return connected;
     }
+    console.warn(`you can't send data on EventSource connection!`);
+    return false;
   };
   const close = (event: any) => {
     clearTimeout(reconnectTimer);
-    if ('close' in conn) {
+    if (conn && 'close' in conn) {
       conn.close();
     }
     options.onClose(event || { code: -1, reason: `` });
   };
-  setTimeout(options.onInit, 0);
-  setTimeout(initConnection, 0);
+  setImmediate(options.onInit);
+  setImmediate(initConnection);
 
   function initConnection() {
     conn = new Connector(fullURL);
