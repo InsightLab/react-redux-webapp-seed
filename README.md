@@ -96,3 +96,50 @@ export const routes: TRoute[] = [
   // ...
 ];
 ```
+
+### Cards
+
+Cards são componentes React que podem ser criados e gerenciados de forma independente.  
+Algumas funções como mover, minimizar, fechar, entre outras, são comportamentos comuns nesses tipos de componentes, portanto estas ações são gerenciadas pelo _CardManagerProvider_.
+
+```javascript
+export const SomePage = () => {
+  return (
+    <CardManagerProvider>
+      {/* outros componentes */}
+    </CardManagerProvider>
+  );
+};
+```
+
+Para definir um Card basta exportar um componente do tipo `TCard`, por exemplo:
+
+```typescript
+type TParams = {
+  name: string;
+};
+export const HelloCard: TCard<TParams> = ({ name }) => {
+  return <p>Hello, {name}!</p>;
+};
+```
+
+Podemos solicitar a criação de cards pela função `openCard` do hook `useCardManager`.
+
+```typescript
+export const SomeView = () => {
+  const cardManager = useCardManager();
+
+  const handleNewCards = () => {
+    cardManager.openCard(HelloCard, { name: 'John' });
+    cardManager.openCard(HelloCard, { name: 'Mary' });
+  };
+  const handleCloseCards = () => {
+    cardManager.closeAll();
+  };
+  // ...
+};
+```
+
+_Obs1:_ O hook _useCardManager_ deve ser utilizado apenas dentro de componentes que sejam descendentes de _CardManagerProvider_.
+
+Alguns exemplos de cards podem ser encontrados em `./src/components/cards/` e estão sendo utilizados em _StatusPage_.
