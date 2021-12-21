@@ -12,6 +12,9 @@ export const Text = styled.p`
   font-size: 1.1rem;
   color: ${(props) => props.theme.text};
   opacity: 0.5;
+  button {
+    margin: 3px;
+  }
 `;
 
 export const Card = styled.div`
